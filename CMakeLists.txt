@@ -13,7 +13,7 @@ list(APPEND EXTRA_LIBS Polynomial)
 
 
 
-add_executable(Burgers main.cpp MeshGen1D.cpp GeometricFactors1D.cpp)
+add_executable(Burgers main.cpp MeshGen1D.cpp GeometricFactors1D.cpp BurgersRHS1D.cpp)
 
 target_link_libraries(Burgers PUBLIC ${EXTRA_LIBS})
 
