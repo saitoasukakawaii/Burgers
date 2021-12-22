@@ -47,9 +47,8 @@ void MeshGen1D(const double &xmin, const double &xmax, const int &K, VectorXd &V
 
 void GeometricFactors1D(const MatrixXd &x, const MatrixXd &Dr,
                         MatrixXd &rx, MatrixXd &J);
-void BurgersRHS1D(const double &time,
+MatrixXd BurgersRHS1D(const double &time,
                   const MatrixXd &Dr, const MatrixXd &rx,
                   const MatrixXd &nx, const MatrixXd &LIFT,
-                  const MatrixXd &Fscale,
-                  MatrixXd &u, MatrixXd &rhsu) ;
+                  const MatrixXd &Fscale, const MatrixXd &u) ;
 #endif //BURGERS_BURGERS_H

@@ -4,11 +4,10 @@
 #include "burgers.h"
 #include <cmath>
 
-void BurgersRHS1D(const double &time,
+MatrixXd BurgersRHS1D(const double &time,
                   const MatrixXd &Dr, const MatrixXd &rx,
                   const MatrixXd &nx, const MatrixXd &LIFT,
-                  const MatrixXd &Fscale,
-                  MatrixXd &u, MatrixXd &rhsu) {
+                  const MatrixXd &Fscale, const MatrixXd &u) {
     MatrixXd du = MatrixXd::Constant(2, K, 0.);
     for (int i = 0; i < K - 1; i++) {
         du(1, i) = u(Nv - 1, i) - u(0, i + 1);
@@ -72,7 +71,9 @@ void BurgersRHS1D(const double &time,
     std::cout << "dfdr" << std::endl;
     std::cout << dfdr << std::endl;
     // compute right hand sides of the semi - discrete PDE
+    MatrixXd rhsu;
     rhsu = -(MatrixXd(rx.array()*dfdr.array()) - LIFT * MatrixXd(Fscale.array()*flux.array()));
     std::cout << "rhsu" << std::endl;
     std::cout << rhsu << std::endl;
+    return rhsu;
 }
