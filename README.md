@@ -3,7 +3,7 @@
 1D burger's equation with viscous term can be expreessed as:
 
  
-> ![Alt text](./Figure/MommyTalk1640161677061.svg.svg)
+> ![Alt text](./Figure/MommyTalk1640161677061.svg)
 
 We use finite element method (FEM) to solve the equation. Selecting test function $\phi$ giving weighted residual integral formula:
 
