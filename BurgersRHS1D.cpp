@@ -24,7 +24,7 @@ MatrixXd BurgersRHS1D(const double &time,
     std::cout << du << std::endl;
     MatrixXd dudx = rx.array()*(Dr * u).array();
     MatrixXd duB = 0.5*Fscale.array()*(nx.array()*du.array());
-    MatrixXd q = sqrt(epsilon) * dudx - LIFT * duB;
+    MatrixXd q = sqrt(epsilon) * (dudx - LIFT * duB);
     std::cout << "q" << std::endl;
     std::cout << q << std::endl;
     MatrixXd dq = MatrixXd::Constant(2, K, 0.);
@@ -54,7 +54,12 @@ MatrixXd BurgersRHS1D(const double &time,
     std::cout << "du2" << std::endl;
     std::cout << du2 << std::endl;
     // Compute flux
-    double maxvel = u.lpNorm<Infinity>();
+    double maxvel = -1e5;
+    for(int i=0;i<Nv;++i){
+        for(int j=0;j<K;++j){
+            if( abs(u(i,j))>maxvel ) maxvel = abs(u(i,j));
+        }
+    }
     std::cout << "maxvel" << std::endl;
     std::cout << maxvel << std::endl;
     //  penalty scaling--See Chapter 7.2

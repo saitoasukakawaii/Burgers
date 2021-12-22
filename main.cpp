@@ -19,10 +19,10 @@ using namespace Eigen;
 void output(const MatrixXd x, const MatrixXd u, const int nstep);
 
 int main() {
-    Jacobi1D jac(N);        // differential matrix and mass matrix
-    VectorXd VX;            // vortexs
-    MatrixXd x, J, rx;      // weight points of Gauss-quadrature
-                            // and jacobian matrix
+    Jacobi1D jac(N);                                // differential matrix and mass matrix
+    VectorXd VX(K+1);                               // vortexs
+    MatrixXd x(Nv, K), J(Nv,Nv), rx(Nv,Nv);         // weight points of Gauss-quadrature
+                                                    // and jacobian matrix
 
     // get the vortex coordinate of the 1D mesh
     double deltax = xmax - xmin;
@@ -41,7 +41,12 @@ int main() {
     double time = 0, timelocal;
     MatrixXd resu = MatrixXd::Constant(Nv, K, 0.);
     MatrixXd rhsu = MatrixXd::Constant(Nv, K, 0.);
-    double umax = u.lpNorm<Infinity>();
+    double umax = -1e5;
+    for(int i=0;i<Nv;++i){
+        for(int j=0;j<K;++j){
+            if( abs(u(i,j))>umax ) umax = abs(u(i,j));
+        }
+    }
     VectorXd dx = x(0, all) - x(1, all);
     double x_min = dx.array().abs().minCoeff();
     double dt = CFL * std::min(x_min / umax, x_min * x_min / std::sqrt(epsilon));
@@ -61,6 +66,8 @@ int main() {
 ////    output(x, u, 0);
     for (int tstep = 0; tstep< Nsteps; ++tstep) {
         for (int INTRK = 0; INTRK < RK4::N_t; ++INTRK) {
+            cout << "\n\n------------------------------------------------------------------------------\n" << endl;
+            cout << "N step: " << Nsteps << ", Runge-Kutta step: " << INTRK+1 << ", delta t: " << dt << endl;
             timelocal = time + RK4::rk4c[INTRK] * dt;
             rhsu = BurgersRHS1D(timelocal, jac.Dr, rx, nx, LIFT, Fscale, u);
             resu = RK4::rk4a[INTRK] * resu + dt * rhsu;
