@@ -13,8 +13,10 @@ $$\left(\frac{\partial u}{\partial t},\phi\right)+\left(\frac{\partial}{\partial
 > Eigen-3.4
 
 ## How to use
-> mkdir build
-> cd build
-> cmake ..
-> make
+
+    $ mkdir build
+    $ cd build
+    $ cmake ..
+    $ make
+
 Or just use awesome IDE, for example Clion to compile and run the program.
