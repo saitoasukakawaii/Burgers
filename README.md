@@ -1,4 +1,4 @@
-# Solving Burger's equation with spectral/hp element method
+# Solving Burger's equation with discontinuous Galerkin method by spectral/hp element
 
 1D burger's equation with viscous term can be expreessed as:
 
